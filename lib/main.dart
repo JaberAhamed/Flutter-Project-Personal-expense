@@ -9,11 +9,11 @@ import 'package:personal_expense/widgets/transaction_list.dart';
 
 
 void main(){
-  WidgetsFlutterBinding.ensureInitialized();
+ /* WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
-  ]);
+  ]);*/
   runApp(MyApp());
 }
 
@@ -94,29 +94,55 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  var _stateChange = false;
+
   @override
   Widget build(BuildContext context) {
-    var appbar = AppBar(
+    final medeaQury = MediaQuery.of(context);
+    final appbar = AppBar(
       title: Text("Personal expense calculate"),
-
       actions: [
         IconButton(icon: Icon(Icons.add) , onPressed:  () => _showNewTransacitoninBottom(context))
       ],
     );
+    var textListWidget = Container(
+        height: (MediaQuery.of(context).size.height - appbar.preferredSize.height
+            - MediaQuery.of(context).padding.top)*0.6,
+        child: TransactionList(_transition,_deleteTransaction));
+    final isLandscap = MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
         appBar: appbar,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                  height: (MediaQuery.of(context).size.height - appbar.preferredSize.height
-                      - MediaQuery.of(context).padding.top)*0.4,
-                  child: Chart(recentTransaction)),
-              Container(
-                  height: (MediaQuery.of(context).size.height - appbar.preferredSize.height
-                      - MediaQuery.of(context).padding.top)*0.6,
-                  child: TransactionList(_transition,_deleteTransaction))
+
+              if(isLandscap) Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart'),
+                  Switch(value:_stateChange, onChanged: (valuee){
+                    setState(() {
+                      _stateChange = valuee;
+                    });
+                  })
+                ],
+              ),
+
+             if(!isLandscap) Container(
+                 height: (medeaQury.size.height - appbar.preferredSize.height
+                     - MediaQuery.of(context).padding.top)*0.4,
+                 child: Chart(recentTransaction)),
+
+              if(!isLandscap) textListWidget,
+
+              if(isLandscap) _stateChange?  Container(
+                  height: (medeaQury.size.height - appbar.preferredSize.height
+                      - MediaQuery.of(context).padding.top)*0.7,
+                  child: Chart(recentTransaction)):textListWidget,
+
+
 
             ],
 
@@ -124,7 +150,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(child:Icon(Icons.add),onPressed: ()=> _showNewTransacitoninBottom(context),),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        child: FloatingActionButton(
+          child:Icon(Icons.add),onPressed: ()=> _showNewTransacitoninBottom(context),),
+      ),
     );
   }
 }

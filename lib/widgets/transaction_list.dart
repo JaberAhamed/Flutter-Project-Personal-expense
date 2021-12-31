@@ -11,14 +11,17 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return   Container(
-      height: 450,
-      child:transition.isEmpty?Column(children: [
-        Text("No transaction is not available",
-          style:Theme.of(context).textTheme.headline6),
-        Container(
-            height: 200,
-            child: Image.asset('asset/images/waiting.png'))
-      ],) :ListView.builder(
+
+      child:transition.isEmpty?LayoutBuilder(builder: (context,constraints){
+        return Column(children: [
+          Text("No transaction is not available",
+              style:Theme.of(context).textTheme.headline6),
+          Container(
+              height: constraints.maxHeight* 0.6,
+              child: Image.asset('asset/images/waiting.png'))
+        ],);
+
+      }) :ListView.builder(
         itemBuilder:(ctx,index){
             return Card(
               elevation: 6,
@@ -36,7 +39,11 @@ class TransactionList extends StatelessWidget {
                 ),
                 title:Text(transition[index].title,style: Theme.of(context).textTheme.headline6,) ,
                 subtitle: Text(DateFormat.yMMMd().format(transition[index].dateTime),style: TextStyle(color: Colors.grey),),
-                trailing: IconButton(
+                trailing:MediaQuery.of(context).size.width > 360? FlatButton.icon
+                  (onPressed: () => deleteTransacion(transition[index].id),
+                    icon: Icon(Icons.delete),
+                    textColor: Theme.of(context).errorColor,
+                    label: Text("Delete")): IconButton(
                   icon: Icon(Icons.delete),
                   color: Theme.of(context).errorColor,
                   onPressed: () => deleteTransacion(transition[index].id),
