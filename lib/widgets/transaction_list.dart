@@ -11,7 +11,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return   Container(
-      height: 300,
+      height: 450,
       child:transition.isEmpty?Column(children: [
         Text("No transaction is not available",
           style:Theme.of(context).textTheme.headline6),
