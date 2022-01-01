@@ -5,13 +5,39 @@ import 'package:intl/intl.dart';
 class NewTransactionList extends StatefulWidget {
   Function addTransaction;
 
-  NewTransactionList(this.addTransaction);
+  NewTransactionList(this.addTransaction){
+    print("Constuction created ");
+  }
 
   @override
-  _NewTransactionListState createState() => _NewTransactionListState();
+  _NewTransactionListState createState(){
+    print("Create state");
+    return  _NewTransactionListState();
+  }
 }
 
 class _NewTransactionListState extends State<NewTransactionList> {
+  _NewTransactionListState(){
+    print("New transectin Stete");
+  }
+  @override
+  void initState() {
+    print("Init state");// TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant NewTransactionList oldWidget) {
+    print("DId update state");// TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    print("Dispose state");// TODO: implement dispose
+    super.dispose();
+  }
+
   final titleController = TextEditingController();
 
   final amountInputController = TextEditingController();
@@ -43,6 +69,7 @@ class _NewTransactionListState extends State<NewTransactionList> {
 
   @override
   Widget build(BuildContext context) {
+    print("Build state");
     return SingleChildScrollView(
       child: Card(
         elevation: 5,
