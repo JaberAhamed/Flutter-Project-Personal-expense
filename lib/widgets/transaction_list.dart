@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_expense/widgets/transactionItem.dart';
 import '../models/transition.dart';
 
 class TransactionList extends StatelessWidget {
@@ -23,33 +24,7 @@ class TransactionList extends StatelessWidget {
 
       }) :ListView.builder(
         itemBuilder:(ctx,index){
-            return Card(
-              elevation: 6,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 30,
-                  child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FittedBox(
-                      child: Text(transition[index].amount.toStringAsFixed(2)),
-
-                  ),
-                ),
-                  backgroundColor: Theme.of(context).primaryColor,
-                ),
-                title:Text(transition[index].title,style: Theme.of(context).textTheme.headline6,) ,
-                subtitle: Text(DateFormat.yMMMd().format(transition[index].dateTime),style: TextStyle(color: Colors.grey),),
-                trailing:MediaQuery.of(context).size.width > 360? FlatButton.icon
-                  (onPressed: () => deleteTransacion(transition[index].id),
-                    icon: Icon(Icons.delete),
-                    textColor: Theme.of(context).errorColor,
-                    label: Text("Delete")): IconButton(
-                  icon: Icon(Icons.delete),
-                  color: Theme.of(context).errorColor,
-                  onPressed: () => deleteTransacion(transition[index].id),
-                ),
-              ),
-            );
+            return TransactionItem(transition: transition[index], deleteTransacion: deleteTransacion);
           /*Card(
               child: Row(
                 children: [
@@ -92,3 +67,5 @@ class TransactionList extends StatelessWidget {
     );
   }
 }
+
+

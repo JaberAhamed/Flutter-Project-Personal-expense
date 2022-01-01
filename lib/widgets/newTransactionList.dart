@@ -74,7 +74,7 @@ class _NewTransactionListState extends State<NewTransactionList> {
                     Text(_dateTime == null? "No date choose":'Picked Date:${DateFormat.yMd().format(_dateTime)}'),
                     FlatButton(
                       onPressed:  _pickedDateTime,
-                      child: Text(
+                      child:  Text(
                         "Choose Date",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
@@ -89,7 +89,7 @@ class _NewTransactionListState extends State<NewTransactionList> {
                   addValidTransaction();
                 },
                 color: Theme.of(context).primaryColor,
-                child: Text("Add Transaction"),
+                child:const Text("Add Transaction"),
                 textColor: Theme.of(context).textTheme.button.color,
               )
             ],
