@@ -22,9 +22,10 @@ class TransactionList extends StatelessWidget {
               child: Image.asset('asset/images/waiting.png'))
         ],);
 
-      }) :ListView.builder(
-        itemBuilder:(ctx,index){
-            return TransactionItem(transition: transition[index], deleteTransacion: deleteTransacion);
+      }) :ListView (
+             children: transition.map((tex) {
+      return TransactionItem(key :ValueKey(tex.id) ,transition: tex, deleteTransacion: deleteTransacion);
+    }).toList(),
           /*Card(
               child: Row(
                 children: [
@@ -61,8 +62,8 @@ class TransactionList extends StatelessWidget {
                 ],
               ),
             );*/
-        },
-        itemCount: transition.length,
+
+
       ),
     );
   }

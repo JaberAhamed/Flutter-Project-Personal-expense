@@ -56,9 +56,10 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
   final List<Transition>_transition = [
     /*Transition(id: "12", title: "Cost", amount: 12.9, dateTime: DateTime.now()),
     Transition(id: "13", title: "Lost", amount: 14.9, dateTime: DateTime.now())*/
@@ -68,6 +69,22 @@ class _MyHomePageState extends State<MyHomePage> {
      return _transition.where((tx){
        return tx.dateTime.isAfter(DateTime.now().subtract(Duration(days: 7)));
      }).toList();
+  }
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+  @override
+  void didChangeAppLifecycleChange(AppLifecycleState state){
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   void _addTransaction(String title,double amount,DateTime selectDate){
@@ -123,6 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   var _stateChange = false;
+
+
 
   @override
   Widget build(BuildContext context) {
