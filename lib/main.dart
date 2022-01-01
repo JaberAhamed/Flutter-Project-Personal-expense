@@ -94,6 +94,34 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+  List<Widget> _buildPortraitContent(MediaQueryData medeaQury,AppBar appbar,Widget textListWidget){
+    return [Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Show Chart'),
+        Switch(value:_stateChange, onChanged: (valuee){
+          setState(() {
+            _stateChange = valuee;
+          });
+        })
+      ],
+    ), _stateChange?  Container(
+        height: (medeaQury.size.height - appbar.preferredSize.height
+            - MediaQuery.of(context).padding.top)*0.7,
+        child: Chart(recentTransaction)):textListWidget,];
+  }
+
+  List<Widget> _buildLandscapContent(MediaQueryData medeaQury,AppBar appbar,Widget textListWidget){
+    return [
+      Container(
+          height: (medeaQury.size.height - appbar.preferredSize.height
+              - MediaQuery.of(context).padding.top)*0.4,
+          child: Chart(recentTransaction)),
+      textListWidget,
+    ];
+  }
+
   var _stateChange = false;
 
   @override
@@ -118,29 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
 
-              if(isLandscap) Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show Chart'),
-                  Switch(value:_stateChange, onChanged: (valuee){
-                    setState(() {
-                      _stateChange = valuee;
-                    });
-                  })
-                ],
-              ),
+              if(isLandscap) ..._buildPortraitContent(medeaQury,appbar,textListWidget),
 
-             if(!isLandscap) Container(
-                 height: (medeaQury.size.height - appbar.preferredSize.height
-                     - MediaQuery.of(context).padding.top)*0.4,
-                 child: Chart(recentTransaction)),
-
-              if(!isLandscap) textListWidget,
-
-              if(isLandscap) _stateChange?  Container(
-                  height: (medeaQury.size.height - appbar.preferredSize.height
-                      - MediaQuery.of(context).padding.top)*0.7,
-                  child: Chart(recentTransaction)):textListWidget,
+             if(!isLandscap) ..._buildLandscapContent(medeaQury, appbar, textListWidget),
 
 
 
